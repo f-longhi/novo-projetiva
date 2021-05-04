@@ -1,0 +1,7 @@
+.icon-picker__button {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

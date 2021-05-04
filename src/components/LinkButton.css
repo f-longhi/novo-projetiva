@@ -1,0 +1,53 @@
+.link-button {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  color: rgb(255,255,255);
+  font-size: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  position: relative;
+  background: none;
+  border: none;
+}
+
+.link-button:link,
+.link-button:visited {
+  color: rgb(255,255,255);
+  text-decoration: none;
+}
+
+
+.link-button:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.link-button__text {
+  font-weight: 600;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.link-button__actions {
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 8px 4px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.link-button:focus .link-button__actions,
+.link-button:hover .link-button__actions {
+  opacity: 1;
+  transition: opacity .1s linear;
+  transition-delay: .5s;
+}
+

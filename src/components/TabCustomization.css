@@ -1,0 +1,25 @@
+.tab-customization {
+  background: white;
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+}
+
+.tab-customization__content {
+  /* display: flex; */
+  /* flex-flow: row nowrap; */
+  /* flex: 1 1 100%; */
+  /* overflow: hidden; */
+}
+
+.tab-customization__settings-grid {
+  display: grid;
+  grid-template-columns: 300px 300px;
+  grid-gap: 4px;
+  padding: 16px;
+}
+
+.tab-customization__settings-grid-label {
+  justify-self: end;
+}

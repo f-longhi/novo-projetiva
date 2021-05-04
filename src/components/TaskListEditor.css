@@ -1,0 +1,64 @@
+.task-list-editor {
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+}
+
+
+.task-list-editor__title {
+  flex: 0 0 auto;
+}
+
+.task-list-editor__content {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.task-list-editor__actions-panel {
+  flex: 0 0 300px;
+  overflow: auto;
+}
+
+.task-list-editor__action-button {
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.task-list-editor__task-text-input {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.task-list-editor__actions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-list-editor__task-list{
+  flex: 1 1 auto;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.task-list-editor__task-list-item {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 2px 8px;
+}
+
+.task-list-editor__task-list-item--selected {
+  background: #eee;
+}
+
+.task-list-editor__task-list-item-label {
+  flex: 1 1 auto;
+  padding: 2px 4px;
+  border: none;
+}

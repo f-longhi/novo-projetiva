@@ -1,0 +1,11 @@
+.link-editor-dialog__grid {
+  display: grid;
+  grid-template-areas: "title icon"
+    "url icon";
+  grid-gap: 16px;
+  margin-bottom: 16px;
+}
+
+.link-editor-dialog__icon-picker-button {
+  grid-area: icon;
+}

@@ -1,0 +1,43 @@
+.tab-tasks {
+  background: white;
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: hidden;
+}
+
+.tab-tasks__content {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: 1 1 100%;
+  overflow: hidden;
+  border-top: solid 1px lavender;
+}
+
+.tab-tasks__sidebar-left {
+  flex: 0 0 400px;
+  height: 100%;
+  overflow: auto;
+  border-right: solid 1px lavender;
+}
+
+.tab-tasks__editor {
+  min-height: 100%;
+  flex: 1 0 60%;
+  overflow: auto;
+}
+
+.tab-tasks__tab-selector {
+  margin: 0;
+  padding: 16px 32px;
+  border-bottom: solid 1px lavender;
+  cursor: default;
+}
+
+.tab-tasks__tab-selector:hover {
+  background-color: #f3f3f3;
+}
+
+.tab-tasks__tab-selector--active {
+  background-color: #f0f0f0;
+}

@@ -1,0 +1,14 @@
+{
+  "name": "projetiva-hp-2",
+  "version": "0.1.0",
+  "description": "Projetiva HP 2",
+  "author": "Felipe Longhi",
+  "devDependencies": {
+    "webpack": "^5.35.1",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "dexie": "^3.0.3",
+    "vue": "^2.6.12"
+  }
+}

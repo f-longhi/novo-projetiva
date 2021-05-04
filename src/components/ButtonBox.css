@@ -1,0 +1,8 @@
+.button-box {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 4px;
+  justify-content: end;
+  width: 100%;
+  box-sizing: border-box;
+}

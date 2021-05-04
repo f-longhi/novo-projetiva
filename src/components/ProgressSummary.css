@@ -1,0 +1,15 @@
+.progress-summary__progress-bar-wrapper {
+  margin: 6px 0;
+}
+
+.progress-summary__infobar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-summary__status {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+}
