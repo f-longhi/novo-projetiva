@@ -18,6 +18,10 @@ export default class IDBDataStore {
     return this._db.items.add(entry)
   }
   
+  async bulkAdd(entries) {
+    return this._db.items.bulkAdd(entries)
+  }
+  
   async get(entryId) {
     return this._db.items.get(entryId).toArray()
   }
@@ -26,8 +30,20 @@ export default class IDBDataStore {
     return this._db.items.put(entry)
   }
   
+  async bulkPut(entries) {
+    return this._db.items.bulkPut(entries)
+  }
+  
   async delete(entryId) {
     return this._db.items.delete(entryId)
+  }
+  
+  async bulkDelete(entryIds) {
+    return this._db.items.bulkDelete(entryIds)
+  }
+  
+  async clear() {
+    return this._db.items.clear()
   }
   
 }

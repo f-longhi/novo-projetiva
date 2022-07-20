@@ -4,11 +4,30 @@ import LinkEditorDialog from './LinkEditorDialog.mjs'
 import LinkGrid from './LinkGrid.mjs'
 import SearchBox from './SearchBox.mjs'
 
-import {DataStore} from '../storage/DataStore.mjs'
+import {getDataStoreDriver} from '../storage/DataStore.mjs'
+
+const DataStore = getDataStoreDriver(configStore.getOption('Settings/homeTabStorageDriver') || 'IndexedDB')
 
 const linkStore = new DataStore('HomePageLinks')
 
-export default {
+async function serialize() {
+  return {
+    schemaVersion: 1,
+    links: await linkStore.getAll()
+  }
+}
+
+async function deserialize(data) {
+  
+  if (data.schemaVersion !== 1)
+    throw new Error('Versão do pacote de dados não suportada')
+  
+  await linkStore.clear()
+  await linkStore.bulkAdd(data.links)
+  
+}
+
+const component = {
   
   inheritAttrs: false,
   
@@ -153,4 +172,14 @@ export default {
       />
     </div>
   `
+}
+
+
+export default {
+  id: 'home',
+  name: 'Início',
+  visibleInTabList: true,
+  component,
+  serialize,
+  deserialize
 }

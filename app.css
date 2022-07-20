@@ -15,6 +15,7 @@
 @import "./src/components/TabHome.css";
 @import "./src/components/TaskListEditor.css";
 @import "./src/components/TabCustomization.css";
+@import "./src/components/TabCalendar.css";
 
 @font-face {
   font-family: "Source Sans Pro";

@@ -60,7 +60,7 @@ export default {
             />
           </label>
         </p>
-        <p>Você pode encontrar uma referência dos ícones disponíveis na página da fonte <a href="https://icons8.com/line-awesome" rel="noopener noreferrer" target="_blank">Line Awesome</a>.
+        <p>Você pode encontrar uma referência dos ícones disponíveis na página da fonte <a href="https://icons8.com/line-awesome" rel="noopener noreferrer" target="_blank">Line Awesome</a>.</p>
         <ButtonBox>
           <button
             type="button"

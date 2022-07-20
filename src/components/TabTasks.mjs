@@ -5,7 +5,22 @@ import {DataStore} from '../storage/DataStore.mjs'
 
 const lists = new DataStore('TaskLists')
 
-export default {
+async function serialize() {
+  return {
+    schemaVersion: 1,
+    taskLists: await lists.getAll()
+  }
+}
+
+async function deserialize(data) {
+  if (data.schemaVersion !== 1)
+    throw new Error('O backup foi criado com uma versão posterior do Projetiva ou algum de seus plugins que tornou-o ilegível pela versão atualmente instalada')
+  
+  await lists.clear()
+  await lists.bulkAdd(data.taskLists)
+}
+
+const component = {
   inheritAttrs: false,
   name: 'TabTasks',
   components: {
@@ -152,4 +167,15 @@ export default {
       </div>
     </div>
   `
+}
+
+
+
+export default {
+  id: 'tasks',  
+  name: 'Tarefas',
+  visibleInTabList: true,
+  component,
+  serialize,
+  deserialize
 }

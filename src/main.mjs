@@ -6,39 +6,100 @@ import configStore from './config-store.mjs'
 import TabHome from './components/TabHome.mjs'
 import TabTasks from './components/TabTasks.mjs'
 import TabCustomization from './components/TabCustomization.mjs'
+import TabCalendar from './components/TabCalendar.mjs'
 import TransparentButton from './components/TransparentButton.mjs'
+
+import {saveBlob, openFile} from './files6.mjs'
 
 const urlParams = new URLSearchParams(location.search)
 
-const INITIAL_ACTIVE_TAB = urlParams.get('tab') || 'home'
-
 const availableTabs = [
-  {
-    id: 'home',
-    name: 'Início',
-    component: TabHome,
-    visibleInTabList: true,
-  },
-  {
-    id: 'tasks',  
-    name: 'Tarefas',
-    component: TabTasks,
-    visibleInTabList: true,
-  },
-  {
-    id: 'customization',  
-    name: 'Personalização',
-    component: TabCustomization,
-    visibleInTabList: false,
-  },
+  TabHome,
+  TabTasks,
+  TabCalendar,
+  TabCustomization,
 ]
+const INITIAL_ACTIVE_TAB = urlParams.get('tab') || availableTabs.find(tab => tab.visibleInTabList).id
 
+async function createBackup() {
+  
+  const componentData = []
+  
+  for (const tab of availableTabs) {
+    
+    if (typeof tab.serialize !== 'function')
+      continue
+    
+    componentData.push({
+      componentId: tab.id,
+      data: await tab.serialize()
+    })
+    
+  }
+  
+  const wrappedPackage = {
+    application: 'ProjetivaHP2',
+    packageType: 'BasicBackup',
+    schemaVersion: 1,
+    componentData
+  }
+  
+  const serializedData = JSON.stringify(wrappedPackage)
+  
+  const dataBlob = new Blob([ serializedData ], { type: 'application/json' });
+  
+  const
+    padNum = num => String(num).padStart(2, '0'),
+    now = new Date(),
+    y = now.getFullYear(),
+    m = padNum(now.getMonth() + 1),
+    d = padNum(now.getDate()),
+    h = padNum(now.getHours()),
+    M = padNum(now.getMinutes()),
+    s = padNum(now.getSeconds()),
+    fileName = `projetiva-hp-2-backup-${y}${m}${d}-${h}${M}${s}.json`
+  
+  saveBlob(dataBlob, fileName)
+  
+}
+
+async function restoreFromBackup() {
+  
+  const serializedData = await openFile({ accept: 'application/json' })
+  
+  if (!serializedData)
+    return
+  
+  const wrappedPackage = JSON.parse(serializedData)
+  
+  if (wrappedPackage.application !== 'ProjetivaHP2')
+    throw new Error('O arquivo não parece ser um backup do Projetiva HP 2')
+  
+  if (wrappedPackage.packageType !== 'BasicBackup')
+    throw new Error('O arquivo é um pacote do Projetiva HP 2, mas não é um arquivo de backup suportado por esta versão do aplicativo')
+  
+  const componentData = wrappedPackage.componentData
+  
+  if (Array.isArray(componentData)) {
+    
+    for (const componentDataEntry of componentData) {
+      
+      const tab = availableTabs.find(tab => tab.id === componentDataEntry.componentId)
+        
+      if (tab && typeof tab.deserialize === 'function') {
+        await tab.deserialize(componentDataEntry.data)
+      }
+      
+    }
+    
+  }
+  
+}
 
 const vm = new Vue({
   el: '#app',
   
   components: {
-    ... availableTabs.reduce((o, t) => { o[t.component.name] = t.component; return o }, {}),
     TransparentButton
   },
   
@@ -48,8 +109,10 @@ const vm = new Vue({
     settings: {
       backgroundBlendMode: 'normal',
       backgroundColor: '#509F00',
-      backgroundImageUrl: null
+      backgroundImageUrl: null,
+      homeTabStorageDriver: 'IndexedDB'
     },
+    instanceKey: Date.now()
   },
   
   computed: {
@@ -84,12 +147,31 @@ const vm = new Vue({
       for (const key of Object.keys(this.settings)) {
         this.settings[key] = configStore.getOption(`Settings/${key}`, this.settings[key])
       }
+    },
+    
+    onCreateBackup() {
+      createBackup().catch(error => {
+        alert(error)
+        console.error(error)
+      })
+    },
+    
+    onRestoreFromBackup() {
+      restoreFromBackup().catch(error => {
+        alert(error)
+        console.error(error)
+      })
+      this.instanceKey = Date.now()
     }
   },
   
   template: `
   
-    <div id="app" :style="appContainerDynamicStyle">
+    <div
+      id="app"
+      :style="appContainerDynamicStyle"
+      :key="instanceKey"
+    >
   
       <nav id="navigation">
   
@@ -124,6 +206,8 @@ const vm = new Vue({
             class="tab-content"
             :settings="settings"
             @set-setting="onSetSetting"
+            @create-backup="onCreateBackup"
+            @restore-from-backup="onRestoreFromBackup"
           />
         </keep-alive>
         

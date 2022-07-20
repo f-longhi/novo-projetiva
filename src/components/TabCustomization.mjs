@@ -1,6 +1,6 @@
 import configStore from '../config-store.mjs'
 
-export default {
+const component = {
   inheritAttrs: false,
   name: 'TabCustomization',
   props: {
@@ -54,11 +54,51 @@ export default {
               :value="blendMode.value"
             >{{blendMode.name}}</option>
           </select>
+          
+          <label class="tab-customization__settings-grid-label">
+            Driver de armazenamento da aba "Início"*:
+          </label>
+          
+          <select
+            :value="settings.homeTabStorageDriver"
+            @change="$emit('set-setting', 'homeTabStorageDriver', $event.target.value)"
+          >
+            <option value="localStorage">Armazenamento local (experimental)</option>
+            <option value="IndexedDB">Base de dados IndexedDB</option>
+          </select>
+          
+          <label class="tab-customization__settings-grid-label">
+            Meus dados:
+          </label>
+          
+          <div>
+            <button
+              type="button"
+              @click="$emit('create-backup')"
+            >Criar backup</button>
+            
+            <button
+              type="button"
+              @click="$emit('restore-from-backup')"
+            >Restaurar do arquivo</button>
+          </div>
+          
         
         </section>
+        
+        <p>* Será necessário recarregar a página para que esta configuração tome efeito.</p>
         
       </div>
       
     </div>
   `
+}
+
+
+
+export default {
+  id: 'customization',  
+  name: 'Personalização',
+  visibleInTabList: false,
+  component
 }
